@@ -1,37 +1,15 @@
 import React from 'react';
+import './App.css'
+import imdbAPIKey from './keys';
 
-const list = [
-    {
-        id:1,
-        firstName:'Nikhil', 
-        lastName: 'Anantharaman', 
-        designation: 'SE', 
-        age: 23
-    }, 
-    {   
-        id:2,
-        firstName: 'Simran',
-        lastName: 'Chhabra',
-        designation: 'SE',
-        age: 23
-    },
-    {   
-        id:3,
-        firstName:'Shrinidhi',
-        lastName: 'Kulkarni',
-        designation: 'SE',
-        age:24
-    },
-    {   
-        id:4,
-        firstName: 'Adithya',
-        lastName: 'NR',
-        designation: 'Associate',
-        age:21
-    }
-];
+const DEFAULT_QUERY = 'Batman';
 
-const isSearched = (searchTerm) => (item) => item.lastName.toLowerCase().includes(searchTerm.toLowerCase()) || item.firstName.toLowerCase().includes(searchTerm.toLowerCase())
+const PATH_BASE = 'http://omdbapi.com/'
+const API_KEY = `apikey=${imdbAPIKey.imdbAPIKey}`
+
+var url = `${PATH_BASE}?${API_KEY}&s=${DEFAULT_QUERY}`;
+
+const isSearched = (searchTerm) => (item) =>  item.Title.toLowerCase().includes(searchTerm.toLowerCase());
 
 const Button = ({onClick, className = '', children}) => {
     return(
@@ -51,67 +29,112 @@ const Search =({value, onChange, children}) => {
                 value = {value}
                 onChange = {onChange}/>
         </form>
-    )
-    
+    )    
 }
 
 const Table = ({list, pattern, onDismiss}) => {
+    const imageColumnWidth = {width : '20%'};
+    const nameColumnWidth = { width: '20%'};
+    const yearColumnWidth = { width: '30%'};
+    const typeColumnWidth = { width: '20%'};
+    const buttonColumnWidth = { width: '10%'};
+    if(!list) return null
     return (
-        <div>
+        <div className = "table">
             {list.filter(isSearched(pattern)).map(item =>    
-                <div key ={item.id}>
-                    <span><a href={item.firstName} > {item.lastName}></a></span>
-                    <span>{item.designation}</span>
-                    <span>{item.age}</span>
-                    <span> 
-                        <Button
-                            onClick={()=> onDismiss(item.id)}
+                <div key ={item.imdbID} className="table-row">
+                    <span style = {imageColumnWidth}><img src={item.Poster} height="100"></img></span>
+                    <span style = {nameColumnWidth}><a href={item.firstName}>{item.Title}</a></span>
+                    <span style = {yearColumnWidth}>{item.Year}</span>
+                    <span style = {typeColumnWidth}>{item.Type}</span>
+                    <span style = {buttonColumnWidth}> 
+                        <Button className = "button-inline"
+                            onClick={()=> onDismiss(item.imdbID)}
                         >
                         Dismiss
                         </Button>
                     </span>
-                </div>                                
+                </div>                                    
             )}
         </div>
-    )
-       
+    )       
 }
+
 class App extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
-            list,
-            searchTerm : ''
+            result : null,
+            searchTerm : DEFAULT_QUERY
         }
     }
-    
+
+    setSearchMovies = (result) => {
+        this.setState({result : result.result});
+    }
+
     onDismiss = (id) => {
-        console.log('THIS',this);
-        const updatedList = this.state.list.filter(item => item.id !== id)
-        this.setState({list: updatedList})    
+        const isNotId = item => item.imdbID !== id;
+        const updatedSearch = this.state.result.Search.filter(isNotId);
+        this.setState({
+            result : { ...this.state.result,Search: updatedSearch },
+        })
+        //this.setState({result: Object.assign({},this.state.result,{Search: updatedList})});    
     }
 
     onSearchChange = (event) => {
-        console.log(this.state)
         this.setState({searchTerm: event.target.value})
     }
 
+    componentDidMount() {
+        const {searchTerm} = this.state;
+        url = `${PATH_BASE}?${API_KEY}&s=${searchTerm}`
+        fetch(url)
+        .then(response => response.json())
+        .then(result => this.setSearchMovies({result}))
+        .catch(error => error);
+    }
+
+    componentDidCatch(err,info) {
+        console.log('err', err);
+        console.log('info', info);
+    }
+
     render() {
-        const { searchTerm, list } = this.state;
-        return(
-            <div>
-                <Search
-                value={searchTerm}
-                onChange= {this.onSearchChange}
-                    >Search
-                </Search>
-                <Table
-                list={list}
-                pattern={searchTerm}
-                onDismiss={this.onDismiss}
-                />
-            </div>
-        )
+        console.log('state',this.state)
+        const { searchTerm, result } = this.state;
+        if( !result ) {
+            return (
+                <div className = "page">
+                    <div className = "interactions">
+                        <Search
+                        value={searchTerm}
+                        onChange= {this.onSearchChange}
+                            >Search
+                        </Search>
+                    </div>
+                </div>
+                    
+            )
+        } else {
+            return(
+                <div className = "page">
+                    <div className = "interactions">
+                        <Search
+                        value={searchTerm}
+                        onChange= {this.onSearchChange}
+                            >Search
+                        </Search>
+                        <Table
+                        {...console.log('here', result)}
+                        list={result.Search}
+                        pattern={searchTerm}
+                        onDismiss={this.onDismiss}
+                        />
+                    </div>
+                </div>
+            )
+        }
     }
 }
 

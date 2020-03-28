@@ -1,3 +1,61 @@
 .page {
     margin : 15px;
 }
+
+.interactions{
+    text-align: center;
+}
+
+.table {
+    margin: 20px 0;
+}
+
+.table-header {
+    display: flex;
+    line-height: 24px;
+    font-size:16px;
+    padding: 0px 10px;
+    margin : 10px;
+}
+
+.table-empty {
+    margin : 200px;
+    text-align: center;
+    font-size:16px;
+}
+
+.table-row {
+    display: flex;
+    text-align: center;
+    line-height: 20px;
+    margin: 8px;
+    padding:10px;
+    border: 1px solid;
+
+}
+.table-row > span {
+    overflow  : hidden;
+    text-overflow : ellipses;
+    padding: 0 5px;
+}
+
+.table-header > span {
+    overflow: hidden;
+    text-overflow : ellipses;
+    padding: 0 5px;
+}
+
+.button-inline {
+    border-width:0;
+    background: transparent;
+    color: inherit;
+    text-align:inherit;
+    padding: none;
+    cursor: pointer;
+    margin : 10px;
+}
+
+.button-active {
+    border-radius: 0;
+    border-bottom: 1px solid black;
+}

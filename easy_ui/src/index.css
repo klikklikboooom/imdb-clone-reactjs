@@ -23,6 +23,7 @@ input {
   padding: 10px;
   border-radius: 5px;
   margin-right: 10px;
+  font-family: 'Baloo Thambi 2', sans-serif;
   border: 1px solid #dddddd;
 }
 
@@ -30,11 +31,12 @@ button {
   padding: 10px;
   border-radius: 5px;
   border: 1px solid #dddddd;
-  background: transparent;
-  color : #222;
+  background: 	#222;
+  color : #dddddd;
   cursor : pointer;
 }
 
 button:hover {
-  color: #000080;
+  color : #222;
 }
+
