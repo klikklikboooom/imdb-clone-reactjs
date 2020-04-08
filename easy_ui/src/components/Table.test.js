@@ -1,9 +1,9 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
-import renderer from 'react-test-renderer'
-import App from './App';
+import renderer from 'react-test-renderer';
+import Table from './Table';
 
-describe('App', () => {
+describe('Button', () => {
     it('renders without crashing', () => {
         const div = document.createElement('div');
         ReactDOM.render(<App/>, div);
@@ -12,10 +12,9 @@ describe('App', () => {
 
     test('has a valid snapshot', () => {
         const component = renderer.create(
-            <App />
+            <Table>Table</Table>
         );
         const tree = component.toJSON();
         expect(tree).toMatchSnapshot();
     });
 });
-
