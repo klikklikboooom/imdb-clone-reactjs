@@ -1,5 +1,6 @@
 import React from 'react';
-import Button from './Button'
+import Button from './Button';
+import PropTypes from 'prop-types';
 
 const Table = ({list, onDismiss}) => {
     const imageColumnWidth = {width : '20%'};
@@ -31,5 +32,20 @@ const Table = ({list, onDismiss}) => {
         )
     }       
 }
+
+Table.propTypes = {
+    list : PropTypes.arrayOf(
+        PropTypes.shape({
+            imdbID : PropTypes.string.isRequired,
+            Poster : PropTypes.string.isRequired,
+            Title : PropTypes.string.isRequired,
+            Year : PropTypes.string.isRequired,
+            Type : PropTypes.string.isRequired
+        })
+    ),
+    onDismiss : PropTypes.func.isRequired
+}
+
+
 
 export default Table;

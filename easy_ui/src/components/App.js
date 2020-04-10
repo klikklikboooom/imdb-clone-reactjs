@@ -121,8 +121,8 @@ class App extends React.Component {
                         <Search
                         value={searchTerm}
                         onChange= {this.onSearchChange}
-                        onSubmit = {this.onSearchSubmit}
-                            >Search
+                        onSubmit = {this.onSearchSubmit}>
+                            Search
                         </Search>
                         <Table
                             list={list}
