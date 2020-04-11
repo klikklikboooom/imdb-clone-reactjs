@@ -2,7 +2,7 @@ import React from 'react';
 import Button from './Button';
 import PropTypes from 'prop-types';
 
-const Table = ({list, onDismiss}) => {
+const Table = ({list,sortKey, onSort, onDismiss}) => {
     const imageColumnWidth = {width : '20%'};
     const nameColumnWidth = { width: '20%'};
     const yearColumnWidth = { width: '30%'};
