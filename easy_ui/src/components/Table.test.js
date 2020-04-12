@@ -16,7 +16,10 @@ describe('Button', () => {
     Title: "Batman Begins",
     Type: "movie",
     Year: "2005",
-    imdbID: "tt0372784" }]
+    imdbID: "tt0372784" }],
+    sortKey : 'TITLE',
+    isSortReverse : false
+    
 }
     it('renders without crashing', () => {
         const div = document.createElement('div');

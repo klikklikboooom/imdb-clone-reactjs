@@ -5,7 +5,6 @@ import Button from './Button';
 import Search from './Search';
 import Table from './Table'
 import ClipLoader from "react-spinners/ClipLoader";
-import {sortBy} from 'lodash';
 
 import {
     DEFAULT_QUERY,
@@ -13,15 +12,7 @@ import {
     API_KEY,
     PARAM_PAGE,
     PARAM_SEARCH
-} from '../constants'
-
-const SORTS = {
-    NONE : list => list,
-    TITLE : list => sortBy(list, 'Title'),
-    YEAR : list => sortBy(list, 'Year'),
-    TYPE : list => sortBy(list, 'Type')
-}
-
+} from '../constants';
 
 var url = `${PATH_BASE}?${API_KEY}&s=${DEFAULT_QUERY}`;
 
@@ -44,7 +35,13 @@ const withLoading = (Component) => ({isLoading, ...rest}) => {
 
 const ButtonWithLoading = withLoading(Button);
 
-
+const updateSearchMovies = (listOfContent, page) => (prevState) => {
+    const {searchKey, results} = prevState;
+    const oldListOfContent = results && results[searchKey] ? results[searchKey].Search : [];
+    const updatedListOfContent = [ ...oldListOfContent, ...listOfContent];
+    const finalRes = {results : { ...results, [searchKey] : {Search: updatedListOfContent, page} }, error: null, isLoading : false};
+    return finalRes
+}
 
 class App extends React.Component {
     constructor(props) {
@@ -59,9 +56,7 @@ class App extends React.Component {
         }
     }
 
-    onSort = (sortKey) => {
-        this.setState({sortKey})
-    }
+    
 
     needsToSearch = (searchTerm) => {        
         if(this.state.results)  return !this.state.results[searchTerm];
@@ -72,20 +67,20 @@ class App extends React.Component {
         
         const listOfContent = result.Search;
         const {page}  =  result;
-        const {searchKey, results} = this.state;
-        const oldListOfContent = results && results[searchKey] ? results[searchKey].Search : [];
-        const updatedListOfContent = [ ...oldListOfContent, ...listOfContent];
-        const finalRes = {results : { ...results, [searchKey] : {Search: updatedListOfContent, page} }, error: null, isLoading : false};
-        this.setState(finalRes);
+        this.setState(updateSearchMovies(listOfContent, page));
+    
     }
 
     onDismiss = (id) => {
-        const { searchKey, results} = this.state;
-        const {Search, page } = results[searchKey];
-        const isNotId = item => item.imdbID !== id;
-        const updatedSearch = Search.filter(isNotId);
-        this.setState({
-            results : { ...results,[searchKey] : {Search : updatedSearch, page} },
+        
+        this.setState((prevState) => {
+            const { searchKey, results} = prevState;
+            const {Search, page } = results[searchKey];
+            const isNotId = item => item.imdbID !== id;
+            const updatedSearch = Search.filter(isNotId);
+            return ({
+                results : { ...results,[searchKey] : {Search : updatedSearch, page} },
+            })
         })  
     }
 
@@ -101,7 +96,7 @@ class App extends React.Component {
 
     searchMoviesOrTVShows = (searchTerm, page = 1) => {
         if(searchTerm.length === 0) {
-            this.setState({ error : 'Please enter a movie or TV Show'})
+            this.setState({ error : 'Please enter a movie or TV Show'});
         } else {
             this.setState({isLoading : true})
             url = `${PATH_BASE}?${API_KEY}&${PARAM_SEARCH}${searchTerm}&${PARAM_PAGE}${page}`
@@ -131,9 +126,9 @@ class App extends React.Component {
             results,
             searchKey, 
             error,
-            isLoading,
-            sortKey 
+            isLoading
         } = this.state;
+
         if(error && error === 'Please enter a movie or TV Show') {
             return(
                 <div className = "page">
@@ -141,8 +136,8 @@ class App extends React.Component {
                     <Search
                         value={searchTerm}
                         onChange= {this.onSearchChange}
-                        onSubmit = {this.onSearchSubmit}
-                            >Search
+                        onSubmit = {this.onSearchSubmit}>
+                            Search
                     </Search>
                         <p>{error}</p>
                     </div>
@@ -176,8 +171,6 @@ class App extends React.Component {
                         </Search>
                         <Table
                             list={list}
-                            onSort = {this.onSort}
-                            sortKey = {sortKey}
                             onDismiss={this.onDismiss}
                         />
                         <div className="interactions">
