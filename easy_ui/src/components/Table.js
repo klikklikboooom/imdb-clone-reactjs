@@ -4,20 +4,26 @@ import PropTypes from 'prop-types';
 import {sortBy} from 'lodash';
 import classNames from 'classnames';
 
-
-
 const Sort = ({sortKey, onSort, children, activeSortKey}) => {
     
     const sortClass = classNames('button-inline', 
             {'button-active': sortKey === activeSortKey})
-
-    return (
-        <Button 
-        onClick={() => onSort(sortKey)}
-        className= {sortClass}> 
-            {children} 
-        </Button>
-    );
+    if(sortKey) {
+        return (
+            <Button 
+            onClick={() => onSort(sortKey)}
+            className= {sortClass}> 
+                {children} 
+            </Button>
+        );
+    } else {
+        return (
+            <Button 
+            className= {sortClass}> 
+                {children} 
+            </Button>
+        )
+    }
 }
 
 const SORTS = {
@@ -68,7 +74,11 @@ class Table extends React.Component {
                 <div className = "table">
                     <div className = "table-header">
                         <span style = {{ width : '20%'}}>
-                            
+                        <Sort 
+                            sortKey = {''}
+                            onSort = {this.onSort}>
+                                Poster
+                            </Sort>
                         </span>
                         <span style = {{ width : '30%'}}>
                             <Sort 
@@ -95,7 +105,11 @@ class Table extends React.Component {
                             </Sort>
                         </span>
                         <span style = {{ width : '10%'}}>
-                            
+                            <Sort 
+                                sortKey = {''}
+                                onSort = {this.onSort}>
+                                    Archive
+                            </Sort>
                         </span>
                     </div>
                         {reverseSortedList.map(item =>    
