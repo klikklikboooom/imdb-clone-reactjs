@@ -111,7 +111,7 @@ class Table extends React.Component {
                                     Archive
                             </Sort>
                         </span>
-                    </div>
+                    </div>    
                         {reverseSortedList.map(item =>    
                             <div key ={item.imdbID} className="table-row">
                                 <span style = {imageColumnWidth}><img src={item.Poster} height="100"></img></span>
@@ -122,7 +122,7 @@ class Table extends React.Component {
                                     <Button className = "button-inline"
                                         onClick={()=> onDismiss(item.imdbID)}
                                     >
-                                    Dismiss
+                                    <img src={require("../assets/icons8-trash-100.png")} height="42" width="42"/>
                                     </Button>
                                 </span>
                             </div>                                    

@@ -68,9 +68,8 @@ class App extends React.Component {
         const listOfContent = result.Search;
         const {page}  =  result;
         this.setState(updateSearchMovies(listOfContent, page));
-    
     }
-
+   
     onDismiss = (id) => {
         
         this.setState((prevState) => {
