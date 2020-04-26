@@ -114,7 +114,7 @@ class Table extends React.Component {
                     </div>    
                         {reverseSortedList.map(item =>    
                             <div key ={item.imdbID} className="table-row">
-                                <span style = {imageColumnWidth}><img src={item.Poster} height="100"></img></span>
+                                <span style = {imageColumnWidth}><img src={item.Poster} height="100" alt = "No Poster Available"></img></span>
                                 <span style = {nameColumnWidth}><a href={"https://www.imdb.com/title/" + item.imdbID} target="_blank" rel="noopener noreferrer">{item.Title}</a></span>
                                 <span style = {yearColumnWidth}>{item.Year}</span>
                                 <span style = {typeColumnWidth}>{item.Type}</span>

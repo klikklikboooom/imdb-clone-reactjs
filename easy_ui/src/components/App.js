@@ -1,17 +1,19 @@
 import React from 'react';
-import './App.css'
+import './App.css';
 import axios from 'axios';
 import Button from './Button';
 import Search from './Search';
 import Table from './Table'
 import ClipLoader from "react-spinners/ClipLoader";
+import SideNav from './SideNav';
 
 import {
     DEFAULT_QUERY,
     PATH_BASE,
     API_KEY,
     PARAM_PAGE,
-    PARAM_SEARCH
+    PARAM_SEARCH,
+    SIDEBAR_LIST
 } from '../constants';
 
 var url = `${PATH_BASE}?${API_KEY}&s=${DEFAULT_QUERY}`;
@@ -25,7 +27,6 @@ const Loading = () => {
 }
 
 const withLoading = (Component) => ({isLoading, ...rest}) => {
-    console.log('I am loading');
     return (
         isLoading? 
         <Loading />
@@ -130,7 +131,9 @@ class App extends React.Component {
 
         if(error && error === 'Please enter a movie or TV Show') {
             return(
+                
                 <div className = "page">
+                    <SideNav list={SIDEBAR_LIST} />
                     <div className = "interactions">
                     <Search
                         value={searchTerm}
@@ -145,6 +148,7 @@ class App extends React.Component {
         } else if (error) {
             return (
                 <div className = "page">
+                    <SideNav list={SIDEBAR_LIST} />
                     <div className = "interactions">
                         <Search
                         value={searchTerm}
@@ -152,7 +156,7 @@ class App extends React.Component {
                         onSubmit = {this.onSearchSubmit}>
                             Search
                         </Search>
-                        <p>{error}</p>
+                        <p>Oops. Something went wrong.</p>
                     </div>
                 </div>
             )
@@ -161,6 +165,7 @@ class App extends React.Component {
             const list = (results && results[searchKey] && results[searchKey].Search) || [];
             return (
                 <div className = "page">
+                    <SideNav list={SIDEBAR_LIST} />
                     <div className = "interactions">
                         <Search
                         value={searchTerm}

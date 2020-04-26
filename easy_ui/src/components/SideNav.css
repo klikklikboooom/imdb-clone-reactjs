@@ -1,0 +1,23 @@
+.sidenav {
+    position:fixed;
+    height: 100%;
+    width: 10%;
+    background-color: #222222;
+    list-style-type: none;
+    float:left;
+}
+
+.sidenav > a{
+    text-decoration:none;
+    color: #dddddd;
+    transition: 0.3s;
+    line-height: 10px;
+    margin: 8px;
+    padding:10px;
+    display: block;
+}
+
+.sidenav > a:hover {
+    background-color: #858585;
+    text-decoration:none;  
+} 

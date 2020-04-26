@@ -1,9 +1,11 @@
 .page {
-    margin : 15px;
+    margin : 0px;
 }
 
 .interactions{
     text-align: center;
+    width: 90%;
+    float: right;
 }
 
 .table {
