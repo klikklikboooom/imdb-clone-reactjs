@@ -1,7 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 
-
 class Search extends React.Component {
     componentDidMount() {
       if (this.input) {
