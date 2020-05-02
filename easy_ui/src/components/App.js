@@ -3,9 +3,7 @@ import './App.css';
 import axios from 'axios';
 import Button from './Button';
 import Search from './Search';
-import Table from './Table'
-import ClipLoader from "react-spinners/ClipLoader";
-import SideNav from './SideNav';
+import Table from './Table';
 
 import {
     DEFAULT_QUERY,
@@ -13,36 +11,13 @@ import {
     API_KEY,
     PARAM_PAGE,
     PARAM_SEARCH,
-    SIDEBAR_LIST
+    updateSearchMovies,
+    withLoading
 } from '../constants';
 
 var url = `${PATH_BASE}?${API_KEY}&s=${DEFAULT_QUERY}`;
 
-const Loading = () => {
-    return (
-        <div className="sweet-loading">
-          <ClipLoader/>
-        </div>
-    );
-}
-
-const withLoading = (Component) => ({isLoading, ...rest}) => {
-    return (
-        isLoading? 
-        <Loading />
-        :<Component {...rest}/>
-    )
-}
-
 const ButtonWithLoading = withLoading(Button);
-
-const updateSearchMovies = (listOfContent, page) => (prevState) => {
-    const {searchKey, results} = prevState;
-    const oldListOfContent = results && results[searchKey] ? results[searchKey].Search : [];
-    const updatedListOfContent = [ ...oldListOfContent, ...listOfContent];
-    const finalRes = {results : { ...results, [searchKey] : {Search: updatedListOfContent, page} }, error: null, isLoading : false};
-    return finalRes
-}
 
 class App extends React.Component {
     constructor(props) {
@@ -55,9 +30,7 @@ class App extends React.Component {
             isLoading :false,
             sortKey : 'NONE'
         }
-    }
-
-    
+    }  
 
     needsToSearch = (searchTerm) => {        
         if(this.state.results)  return !this.state.results[searchTerm];
@@ -67,8 +40,12 @@ class App extends React.Component {
     setSearchMoviesorTVShows = (result) => {
         
         const listOfContent = result.Search;
-        const {page}  =  result;
-        this.setState(updateSearchMovies(listOfContent, page));
+        if(!listOfContent) {
+            this.setState({error : 'No such item found. Please enter a valid movie or TV Show'})
+        } else {
+            const {page}  =  result;
+            this.setState(updateSearchMovies(listOfContent, page));
+        }
     }
    
     onDismiss = (id) => {
@@ -102,7 +79,6 @@ class App extends React.Component {
             url = `${PATH_BASE}?${API_KEY}&${PARAM_SEARCH}${searchTerm}&${PARAM_PAGE}${page}`
             axios.get(url)
             .then(result => {
-                console.log('RES', result)
                 let editedResult = {...result.data, page : page };
                 this.setSearchMoviesorTVShows(editedResult);
             })
@@ -129,26 +105,23 @@ class App extends React.Component {
             isLoading
         } = this.state;
 
-        if(error && error === 'Please enter a movie or TV Show') {
+        if(error && error === 'Please enter a movie or TV Show' || error && error === 'No such item found. Please enter a valid movie or TV Show') {
             return(
-                
                 <div className = "page">
-                    <SideNav list={SIDEBAR_LIST} />
                     <div className = "interactions">
-                    <Search
-                        value={searchTerm}
-                        onChange= {this.onSearchChange}
-                        onSubmit = {this.onSearchSubmit}>
-                            Search
-                    </Search>
+                        <Search
+                            value={searchTerm}
+                            onChange= {this.onSearchChange}
+                            onSubmit = {this.onSearchSubmit}>
+                                Search
+                        </Search>
                         <p>{error}</p>
                     </div>
                 </div>
-            )
+            );
         } else if (error) {
             return (
                 <div className = "page">
-                    <SideNav list={SIDEBAR_LIST} />
                     <div className = "interactions">
                         <Search
                         value={searchTerm}
@@ -159,13 +132,12 @@ class App extends React.Component {
                         <p>Oops. Something went wrong.</p>
                     </div>
                 </div>
-            )
+            );
         } else {
             const page = (results && results[searchKey] && results[searchKey].page) || 0;
             const list = (results && results[searchKey] && results[searchKey].Search) || [];
             return (
                 <div className = "page">
-                    <SideNav list={SIDEBAR_LIST} />
                     <div className = "interactions">
                         <Search
                         value={searchTerm}
@@ -178,15 +150,15 @@ class App extends React.Component {
                             onDismiss={this.onDismiss}
                         />
                         <div className="interactions">
-                                <ButtonWithLoading
-                                isLoading = {isLoading} 
-                                onClick={() => this.searchMoviesOrTVShows(searchKey, page+1 )}>
-                                    More
-                                </ButtonWithLoading> 
+                            <ButtonWithLoading
+                            isLoading = {isLoading} 
+                            onClick={() => this.searchMoviesOrTVShows(searchKey, page+1 )}>
+                                More
+                            </ButtonWithLoading> 
                         </div>   
                     </div>
                 </div>
-            )   
+            );   
         }
     }
 }

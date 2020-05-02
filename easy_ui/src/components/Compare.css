@@ -1,0 +1,25 @@
+.interactions{
+    text-align: center;
+    width: 90%;
+    float: right;
+}
+
+.divider{
+    position:absolute;
+    left:55%;
+    top:10%;
+    bottom:10%;
+    border-left:1px solid #7a7a7a;
+}
+
+.leftitem {
+    position: absolute;
+    width: 45%;
+    left:10%;
+}
+
+.rightitem {
+    position: relative;
+    width: 45%;
+    left: 55%;
+}

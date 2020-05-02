@@ -67,68 +67,64 @@ class Table extends React.Component {
         const sortedList = SORTS[sortKey](list);
         const reverseSortedList = isSortReverse ? sortedList.reverse() : sortedList
 
-        if(!list || list.Error) {
-            return <p>Please enter a valid title</p> 
-        } else {
-            return (
-                <div className = "table">
-                    <div className = "table-header">
-                        <span style = {{ width : '20%'}}>
+        return (
+            <div className = "table">
+                <div className = "table-header">
+                    <span style = {{ width : '20%'}}>
+                    <Sort 
+                        sortKey = {''}
+                        onSort = {this.onSort}>
+                            Poster
+                        </Sort>
+                    </span>
+                    <span style = {{ width : '30%'}}>
+                        <Sort 
+                        sortKey = {'TITLE'}
+                        onSort = {this.onSort}
+                        activeSortKey = {sortKey}>
+                            Title
+                        </Sort>
+                    </span>
+                    <span style = {{ width : '20%'}}>
+                        <Sort 
+                        sortKey = {'YEAR'}
+                        onSort = {this.onSort}
+                        activeSortKey = {sortKey}>
+                            Year
+                        </Sort>
+                    </span>
+                    <span style = {{ width : '20%'}}>
+                        <Sort 
+                        sortKey = {'TYPE'}
+                        onSort = {this.onSort}
+                        activeSortKey = {sortKey}>
+                            Type
+                        </Sort>
+                    </span>
+                    <span style = {{ width : '10%'}}>
                         <Sort 
                             sortKey = {''}
                             onSort = {this.onSort}>
-                                Poster
-                            </Sort>
-                        </span>
-                        <span style = {{ width : '30%'}}>
-                            <Sort 
-                            sortKey = {'TITLE'}
-                            onSort = {this.onSort}
-                            activeSortKey = {sortKey}>
-                                Title
-                            </Sort>
-                        </span>
-                        <span style = {{ width : '20%'}}>
-                            <Sort 
-                            sortKey = {'YEAR'}
-                            onSort = {this.onSort}
-                            activeSortKey = {sortKey}>
-                                Year
-                            </Sort>
-                        </span>
-                        <span style = {{ width : '20%'}}>
-                            <Sort 
-                            sortKey = {'TYPE'}
-                            onSort = {this.onSort}
-                            activeSortKey = {sortKey}>
-                                Type
-                            </Sort>
-                        </span>
-                        <span style = {{ width : '10%'}}>
-                            <Sort 
-                                sortKey = {''}
-                                onSort = {this.onSort}>
-                                    Archive
-                            </Sort>
-                        </span>
-                    </div>    
-                        {reverseSortedList.map(item =>    
-                            <div key ={item.imdbID} className="table-row">
-                                <span style = {imageColumnWidth}><img src={item.Poster} height="100" alt = "No Poster Available"></img></span>
-                                <span style = {nameColumnWidth}><a href={"https://www.imdb.com/title/" + item.imdbID} target="_blank" rel="noopener noreferrer">{item.Title}</a></span>
-                                <span style = {yearColumnWidth}>{item.Year}</span>
-                                <span style = {typeColumnWidth}>{item.Type}</span>
-                                <span style = {buttonColumnWidth}> 
-                                    <Button className = "button-inline"
-                                        onClick={()=> onDismiss(item.imdbID)}
-                                    >
-                                    <img src={require("../assets/icons8-trash-100.png")} height="42" width="42"/>
-                                    </Button>
-                                </span>
-                            </div>                                    
-                        )}
-                </div>
-            )}
+                                Archive
+                        </Sort>
+                    </span>
+                </div>    
+                    {reverseSortedList.map(item =>    
+                        <div key ={item.imdbID} className="table-row">
+                            <span style = {imageColumnWidth}><img src={item.Poster} height="100" alt = "No Poster Available"></img></span>
+                            <span style = {nameColumnWidth}><a href={"https://www.imdb.com/title/" + item.imdbID} target="_blank" rel="noopener noreferrer">{item.Title}</a></span>
+                            <span style = {yearColumnWidth}>{item.Year}</span>
+                            <span style = {typeColumnWidth}>{item.Type}</span>
+                            <span style = {buttonColumnWidth}> 
+                                <Button className = "button-inline"
+                                    onClick={()=> onDismiss(item.imdbID)}>
+                                <img src={require("../assets/icons8-trash-100.png")} height="42" width="42" alt = 'Dismiss'/>
+                                </Button>
+                            </span>
+                        </div>                                    
+                    )}
+            </div>
+        );
     }
 }
 

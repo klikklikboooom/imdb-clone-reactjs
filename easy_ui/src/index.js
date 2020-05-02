@@ -1,6 +1,5 @@
-import React from 'react';
+
 import ReactDOM from 'react-dom';
-import App from './components/App'
 import createRoutes from './components/Routes';
 import './index.css';
   

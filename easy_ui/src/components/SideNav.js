@@ -7,7 +7,7 @@ const SideNav = ({list}) => {
         <div>
             <div className = "sidenav">
                 {list.map((item) => 
-                    <NavLink to = {item.path}><img src= {item.icon} height="20" width="20"/>{item.value}</NavLink>
+                    <NavLink to = {item.path}><img src= {item.icon} height="20" width="20"alt= 'No icon'/>{item.value}</NavLink>
                 )}  
             </div>
         </div>
