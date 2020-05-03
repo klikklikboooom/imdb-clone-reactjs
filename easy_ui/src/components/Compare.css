@@ -14,33 +14,37 @@
 
 .leftitem {
     position: absolute;
-    width: 45%;
-    left:10%;
+    width: 50%;
+    left:5%;
 }
 
 .rightitem {
-    position: relative;
-    width: 45%;
-    left: 55%;
+    position: absolute;
+    width: 50%;
+    left: 50%;
 }
 
 .card_list {
     margin: 20px 0;
+    align-items: flex-start;
+    display: grid ;
+    grid-template-columns: 175px 175px 175px 175px;
+    align-items: center;
 }
 
 .card_list_empty {
     margin : 200px;
     text-align: center;
     font-size:16px;
+    align-items: inherit;
 }
 
 .card_list_item {
-    display: inline-block;
     margin: 20px 10px;
-    height: flex;
-    width: flex;
+    height: 200px;
+    width: 120px;
     text-align: center;
-    box-shadow: 0 4px 8px 0 rgba(0,0,0,0.2);
+    box-shadow: 0 4px 8px 0 rgb(50, 50, 50);
     border-radius: 5px;
     transition: 0.3s;
     line-height: 20px;
@@ -48,13 +52,15 @@
 }
 
 .card_list_title {
-    width: 60;
+    width: 120px;
     white-space: normal; 
-    word-break: break-word;
+    word-wrap: normal;
+    text-align: center;
 }
 
 .card_list_item:hover {
     box-shadow: 0 8px 16px 0 rgba(0,0,0,0.2);
-    background-color: #222222;
+    background-color: #323232;
     color: #ddd;
 }
+
