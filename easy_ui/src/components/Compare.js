@@ -1,6 +1,6 @@
 import React from 'react';
 import './Compare.css';
-import Search from './Search';
+import SearchForCompare from './SearchForCompare';
 import ClipLoader from "react-spinners/ClipLoader";
 
 const Loading = () => {
@@ -24,11 +24,11 @@ class Compare extends React.Component {
         return (
             <div className = "interactions">
                 <div className = "leftitem">
-                    <Search>Search</Search>
+                    <SearchForCompare />
                 </div>
                 <div className = 'divider'></div>
                 <div className = 'rightitem'>
-                    <Search>Search</Search>
+                    <SearchForCompare />
                 </div>
             </div>
         );
