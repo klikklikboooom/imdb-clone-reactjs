@@ -6,7 +6,7 @@ import About from './About';
 import SideNav from './SideNav'; 
 import { SIDEBAR_LIST } from '../constants';
 
-const createRoutes = () => 
+const CreateRoutes = () => 
     <Router>
         <SideNav list = {SIDEBAR_LIST}/>
         <Route exact path="/" component={App}/>
@@ -16,4 +16,4 @@ const createRoutes = () =>
     </Router>
 
 
-export default createRoutes;
+export default CreateRoutes;

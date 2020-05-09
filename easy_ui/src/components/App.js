@@ -17,7 +17,6 @@ import {
 
 var url = `${PATH_BASE}?${API_KEY}&s=${DEFAULT_QUERY}`;
 
-const TableWithLoading = withLoading(Table);
 const ButtonWithLoading = withLoading(Button);
 
 class App extends React.Component {

@@ -1,10 +1,10 @@
-
+import React from 'react';
 import ReactDOM from 'react-dom';
-import createRoutes from './components/Routes';
+import CreateRoutes from './components/Routes';
 import './index.css';
   
   ReactDOM.render(
-    createRoutes(),
+    <CreateRoutes />,
     document.getElementById('root')
   );
 
