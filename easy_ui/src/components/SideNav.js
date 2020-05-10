@@ -40,7 +40,7 @@ class SideNav extends React.Component {
                         )}
                     </div>
                 </div>
-            )
+            );
         }
         
     }

@@ -1,6 +1,7 @@
 import React from 'react';
 import Button from './Button';
 import PropTypes from 'prop-types';
+import Item from './Item';
 import {sortBy} from 'lodash';
 import classNames from 'classnames';
 
@@ -58,26 +59,29 @@ class Table extends React.Component {
             isSortReverse
         } = this.state
 
-        const imageColumnWidth = {width : '20%'};
-        const nameColumnWidth = { width: '30%'};
-        const yearColumnWidth = { width: '20%'};
-        const typeColumnWidth = { width: '20%'};
-        const buttonColumnWidth = { width: '10%'};
+        let widths = {
+            imageColumnWidth : {width : '20%'},
+            nameColumnWidth : { width: '30%'},
+            yearColumnWidth : { width: '20%'},
+            typeColumnWidth : { width: '20%'},
+            buttonColumnWidth : { width: '10%'},
 
+        }
+        
         const sortedList = SORTS[sortKey](list);
         const reverseSortedList = isSortReverse ? sortedList.reverse() : sortedList
 
         return (
             <div className = "table">
                 <div className = "table-header">
-                    <span style = {{ width : '20%'}}>
+                    <span style = {widths.imageColumnWidth}>
                     <Sort 
                         sortKey = {''}
                         onSort = {this.onSort}>
                             Poster
                         </Sort>
                     </span>
-                    <span style = {{ width : '30%'}}>
+                    <span style = {widths.nameColumnWidth}>
                         <Sort 
                         sortKey = {'TITLE'}
                         onSort = {this.onSort}
@@ -85,7 +89,7 @@ class Table extends React.Component {
                             Title
                         </Sort>
                     </span>
-                    <span style = {{ width : '20%'}}>
+                    <span style = {widths.yearColumnWidth}>
                         <Sort 
                         sortKey = {'YEAR'}
                         onSort = {this.onSort}
@@ -93,7 +97,7 @@ class Table extends React.Component {
                             Year
                         </Sort>
                     </span>
-                    <span style = {{ width : '20%'}}>
+                    <span style = {widths.typeColumnWidth}>
                         <Sort 
                         sortKey = {'TYPE'}
                         onSort = {this.onSort}
@@ -101,7 +105,7 @@ class Table extends React.Component {
                             Type
                         </Sort>
                     </span>
-                    <span style = {{ width : '10%'}}>
+                    <span style = {widths.buttonColumnWidth}>
                         <Sort 
                             sortKey = {''}
                             onSort = {this.onSort}>
@@ -110,18 +114,11 @@ class Table extends React.Component {
                     </span>
                 </div>    
                     {reverseSortedList.map(item =>    
-                        <div key ={item.imdbID} className="table-row">
-                            <span style = {imageColumnWidth}><img src={item.Poster} height="100" alt = "No Poster Available"></img></span>
-                            <span style = {nameColumnWidth}><a href={"https://www.imdb.com/title/" + item.imdbID} target="_blank" rel="noopener noreferrer">{item.Title}</a></span>
-                            <span style = {yearColumnWidth}>{item.Year}</span>
-                            <span style = {typeColumnWidth}>{item.Type}</span>
-                            <span style = {buttonColumnWidth}> 
-                                <Button className = "button-inline"
-                                    onClick={()=> onDismiss(item.imdbID)}>
-                                <img src={require("../assets/icons8-trash-100.png")} height="42" width="42" alt = 'Dismiss'/>
-                                </Button>
-                            </span>
-                        </div>                                    
+                        <Item 
+                            item = {item} 
+                            widths = {widths}
+                            onDismiss = {onDismiss}
+                        />                                  
                     )}
             </div>
         );

@@ -20,6 +20,7 @@ input {
   margin-right: 10px;
   font-family: 'Baloo Thambi 2', sans-serif;
   border: 1px solid #dddddd;
+  box-shadow: 0 4px 8px 0 rgb(50, 50, 50);
 }
 
 button {

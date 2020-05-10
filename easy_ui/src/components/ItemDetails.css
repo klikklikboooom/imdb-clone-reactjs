@@ -1,0 +1,7 @@
+.info-container {
+    margin: 20px 0;
+    align-items: flex-start;
+    display: grid ;
+    grid-template-columns: 300px 300px 300px;
+    align-items: left;
+}
